@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Love You Firdosh ❤️</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI}
+
+body{
+  height:100vh;
+  overflow:hidden;
+  background:radial-gradient(circle at bottom,#020111 40%,#000);
+  color:white;
+}
+
+/* Screen shake */
+.shake{
+  animation:shake .5s;
+}
+@keyframes shake{
+  0%{transform:translate(0)}
+  25%{transform:translate(-8px,5px)}
+  50%{transform:translate(8px,-5px)}
+  75%{transform:translate(-6px,4px)}
+  100%{transform:translate(0)}
+}
+
+/* Lock screen */
+#lock{
+  position:fixed;inset:0;
+  background:black;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:99;
+}
+#lock input{
+  padding:12px;
+  font-size:18px;
+  border-radius:10px;
+  border:none;
+}
+#lock button{
+  margin-top:12px;
+  padding:10px 30px;
+  border:none;
+  border-radius:25px;
+  background:pink;
+  font-size:16px;
+}
+
+/* Sky */
+#sky{position:fixed;inset:0}
+.star{
+  position:absolute;
+  width:2px;height:2px;
+  background:white;
+  animation:twinkle 2s infinite alternate;
+}
+@keyframes twinkle{from{opacity:.3}to{opacity:1}}
+
+#moon{
+  position:absolute;
+  top:30px;right:30px;
+  width:90px;height:90px;
+  border-radius:50%;
+  background:white;
+  box-shadow:0 0 40px white;
+}
+
+/* Shooting stars */
+.shoot{
+  position:absolute;
+  width:160px;height:2px;
+  background:linear-gradient(90deg,white,transparent);
+  animation:shoot 1.6s linear;
+}
+@keyframes shoot{
+  from{transform:translate(0,0)}
+  to{transform:translate(-900px,450px);opacity:0}
+}
+
+/* Sword & Boom */
+#sword{
+  position:absolute;
+  top:-120px;
+  left:60%;
+  font-size:60px;
+  animation:sword 6s infinite;
+}
+@keyframes sword{
+  0%{top:-120px}
+  60%{top:70%}
+  100%{opacity:0}
+}
+
+#boom{
+  position:absolute;
+  top:70%;
+  left:60%;
+  transform:translate(-50%,-50%);
+  font-size:90px;
+  opacity:0;
+  animation:boom 6s infinite;
+}
+@keyframes boom{
+  0%,55%{opacity:0}
+  65%{opacity:1}
+  100%{opacity:0}
+}
+
+/* Main */
+#main{
+  display:none;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:16px;
+}
+.card{
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(12px);
+  border-radius:24px;
+  padding:18px;
+  max-width:95%;
+}
+
+.photo{
+  width:160px;height:160px;
+  border-radius:50%;
+  border:4px solid hotpink;
+  object-fit:cover;
+  margin-bottom:8px;
+}
+
+#gfname{
+  font-size:26px;
+  color:#ffb6ff;
+  text-shadow:0 0 10px #ff4dff,0 0 30px #ff4dff;
+  animation:glow 2s infinite alternate;
+}
+@keyframes glow{from{opacity:.6}to{opacity:1}}
+
+#cake{
+  font-size:50px;
+  margin-top:10px;
+  cursor:pointer;
+}
+.slice{opacity:0}
+.cut .slice{opacity:1;animation:slice 1s}
+@keyframes slice{to{transform:translateX(18px)}}
+
+#shayari{
+  margin-top:10px;
+  font-size:16px;
+  line-height:1.7;
+}
+</style>
+</head>
+
+<body>
+
+<div id="lock">
+  <h3>💖 Surprise Password 💖</h3>
+  <input id="pass" type="password" placeholder="password">
+  <button onclick="unlock()">Unlock</button>
+</div>
+
+<div id="sky">
+  <div id="moon"></div>
+  <div id="sword">⚔️</div>
+  <div id="boom">💥</div>
+</div>
+
+<div id="main">
+  <div class="card">
+    <h2>🎂 Firdosh – My Dear Wife ❤️</h2>
+    <img src="IMG-20251231-WA0001.jpg" class="photo">
+    <div id="gfname"></div>
+
+    <div id="cake" onclick="cutCake()">🎂 <span class="slice">🍰</span></div>
+    <div id="shayari"></div>
+
+    <small style="opacity:.7">Tap once if voice doesn’t start 🔊</small>
+  </div>
+</div>
+
+<script>
+/* CONFIG */
+const PASSWORD="love";
+const GF_NAME="Ayesha";
+
+/* VOICE */
+const lines=[
+  "I love you Firdosh",
+  "My jaan Firdosh",
+  "Happy Birthday my dear wife",
+  "I miss you Firdosh"
+];
+
+function speak(text){
+  if(!speechSynthesis) return;
+  let u=new SpeechSynthesisUtterance(text);
+  u.lang="en-IN";
+  u.rate=0.9;
+  u.pitch=1.1;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(u);
+}
+
+/* Unlock */
+function unlock(){
+  if(pass.value===PASSWORD){
+    lock.style.display="none";
+    main.style.display="flex";
+    gfname.innerText="❤️ "+GF_NAME+" ❤️";
+    typeShayari();
+
+    // Random love voice loop
+    speak("I love you Firdosh");
+    setInterval(()=>{
+      let r=lines[Math.floor(Math.random()*lines.length)];
+      speak(r);
+    },12000);
+  }else alert("Wrong password 💔");
+}
+
+/* Stars */
+for(let i=0;i<120;i++){
+  let s=document.createElement("div");
+  s.className="star";
+  s.style.left=Math.random()*100+"%";
+  s.style.top=Math.random()*100+"%";
+  sky.appendChild(s);
+}
+
+/* Shooting stars */
+setInterval(()=>{
+  let sh=document.createElement("div");
+  sh.className="shoot";
+  sh.style.top=Math.random()*40+"%";
+  sh.style.left="100%";
+  sky.appendChild(sh);
+  setTimeout(()=>sh.remove(),1600);
+},1800);
+
+/* Sword + Boom voice */
+setInterval(()=>{
+  speak("Sword attack");
+  setTimeout(()=>{
+    speak("Boom");
+    document.body.classList.add("shake");
+    setTimeout(()=>document.body.classList.remove("shake"),500);
+  },3500);
+},6000);
+
+/* Cake */
+function cutCake(){
+  cake.classList.add("cut");
+  speak("Happy Birthday my dear wife");
+}
+
+/* Shayari typing */
+let text=
+"I love you Firdosh ❤️\n\n"+
+" Tum ho toh sab kuch hai\n"+
+" Tum nahi toh kuch bhi nahi\n\n"+
+" Happy Birthday meri jaan 🎂\n"+
+" Firdosh – My Dear Wife ❤️";
+
+let i=0;
+function typeShayari(){
+  if(i<text.length){
+    shayari.innerHTML+=text[i]=="\n"?"<br>":text[i];
+    i++;setTimeout(typeShayari,60);
+  }
+}
+</script>
+
+</body>
+</html>
